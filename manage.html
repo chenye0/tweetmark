@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>TweetMark 管理页</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, "PingFang SC", "Segoe UI", sans-serif;
+    background: #15202b; color: #e7e9ea; height: 100vh; display: flex;
+  }
+  button { cursor: pointer; font-family: inherit; }
+
+  /* ---- 左侧栏 ---- */
+  aside {
+    width: 240px; flex-shrink: 0; border-right: 1px solid #38444d;
+    padding: 20px 12px; display: flex; flex-direction: column; gap: 4px;
+  }
+  aside h1 { font-size: 20px; padding: 0 10px 14px; }
+  aside h1 span { color: #1d9bf0; }
+  .nav-item {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 9px 12px; border-radius: 10px; cursor: pointer; font-size: 15px;
+    background: none; border: none; color: #e7e9ea; width: 100%; text-align: left;
+  }
+  .nav-item:hover { background: #1c2732; }
+  .nav-item.active { background: #1d9bf022; color: #1d9bf0; font-weight: 600; }
+  .nav-item .cnt { font-size: 12px; color: #8b98a5; }
+  aside .spacer { flex: 1; }
+  .side-btn {
+    padding: 8px 12px; border-radius: 10px; border: 1px solid #38444d;
+    background: none; color: #8b98a5; font-size: 13px; margin-top: 6px;
+  }
+  .side-btn:hover { color: #e7e9ea; border-color: #8b98a5; }
+
+  /* ---- 主区域 ---- */
+  main { flex: 1; overflow-y: auto; padding: 20px 28px; }
+  .topbar { display: flex; gap: 12px; margin-bottom: 18px; align-items: center; }
+  .topbar input {
+    flex: 1; max-width: 480px; background: #1c2732; border: 1px solid #38444d;
+    border-radius: 999px; padding: 10px 18px; color: #e7e9ea; font-size: 14px; outline: none;
+  }
+  .topbar input:focus { border-color: #1d9bf0; }
+  .topbar .hint { color: #8b98a5; font-size: 13px; }
+
+  /* ---- 推文卡片 ---- */
+  .card {
+    background: #1c2732; border: 1px solid #38444d; border-radius: 14px;
+    padding: 16px; margin-bottom: 14px; max-width: 720px;
+  }
+  .card .head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .card img.ava { width: 36px; height: 36px; border-radius: 50%; background: #38444d; }
+  .card .who { font-weight: 600; font-size: 14px; }
+  .card .who small { color: #8b98a5; font-weight: 400; margin-left: 6px; }
+  .card .time { margin-left: auto; color: #8b98a5; font-size: 12px; white-space: nowrap; }
+  .card .text { font-size: 14px; line-height: 1.55; white-space: pre-wrap; word-break: break-word; }
+  .card .media { margin-top: 8px; display: flex; gap: 6px; flex-wrap: wrap; }
+  .card .media img { height: 90px; border-radius: 8px; }
+  .card .note-row { margin-top: 10px; display: flex; gap: 8px; align-items: center; }
+  .card .note {
+    flex: 1; background: #15202b; border: 1px solid transparent; border-radius: 8px;
+    padding: 7px 10px; color: #ffd400; font-size: 13px; outline: none;
+  }
+  .card .note::placeholder { color: #8b98a5; }
+  .card .note:focus { border-color: #1d9bf0; }
+  .card .foot { margin-top: 10px; display: flex; gap: 10px; align-items: center; }
+  .card select {
+    background: #15202b; border: 1px solid #38444d; border-radius: 8px;
+    color: #e7e9ea; padding: 5px 8px; font-size: 13px; outline: none;
+  }
+  .card a { color: #1d9bf0; font-size: 13px; text-decoration: none; }
+  .card a:hover { text-decoration: underline; }
+  .card .del { margin-left: auto; background: none; border: none; color: #8b98a5; font-size: 13px; }
+  .card .del:hover { color: #f4212e; }
+  .empty { color: #8b98a5; padding: 60px 0; text-align: center; font-size: 14px; }
+
+  /* ---- 设置 ---- */
+  .settings { max-width: 720px; }
+  .settings h2 { font-size: 17px; margin: 22px 0 12px; }
+  .settings label.opt { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; font-size: 14px; }
+  .settings input[type="number"] {
+    width: 70px; background: #1c2732; border: 1px solid #38444d; border-radius: 8px;
+    padding: 6px 10px; color: #e7e9ea; outline: none;
+  }
+  .frow {
+    display: flex; gap: 8px; align-items: center; margin-bottom: 8px;
+    background: #1c2732; border: 1px solid #38444d; border-radius: 10px; padding: 10px;
+  }
+  .frow input { background: #15202b; border: 1px solid #38444d; border-radius: 8px; padding: 7px 10px; color: #e7e9ea; font-size: 13px; outline: none; }
+  .frow input:focus { border-color: #1d9bf0; }
+  .frow .fname { width: 110px; }
+  .frow .fkw { flex: 1; }
+  .frow button { background: none; border: 1px solid #38444d; color: #8b98a5; border-radius: 8px; padding: 5px 9px; font-size: 12px; }
+  .frow button:hover { color: #e7e9ea; }
+  .frow button.fdel:hover { color: #f4212e; border-color: #f4212e; }
+  .frow .fb-tag { font-size: 12px; color: #8b98a5; }
+  .settings .primary {
+    background: #1d9bf0; color: #fff; border: none; border-radius: 999px;
+    padding: 9px 22px; font-size: 14px; font-weight: 600; margin-top: 14px;
+  }
+  .settings .primary:hover { background: #1a8cd8; }
+  .settings .ghost { background: none; border: 1px solid #38444d; color: #8b98a5; border-radius: 999px; padding: 8px 16px; font-size: 13px; margin-top: 8px; }
+  .settings .kw-hint { color: #8b98a5; font-size: 12px; line-height: 1.6; margin-bottom: 10px; }
+  #devBanner { display: none; background: #f0a02033; color: #f0a020; padding: 6px 12px; border-radius: 8px; font-size: 12px; margin-bottom: 14px; }
+</style>
+</head>
+<body>
+<aside>
+  <h1>Tweet<span>Mark</span></h1>
+  <div id="folderNav"></div>
+  <div class="spacer"></div>
+  <button class="side-btn" id="btnSettings">⚙ 设置 · 文件夹与规则</button>
+  <button class="side-btn" id="btnExport">⬇ 导出 JSON 备份</button>
+  <button class="side-btn" id="btnImport">⬆ 导入 JSON</button>
+  <input type="file" id="importFile" accept=".json" style="display:none">
+</aside>
+<main>
+  <div id="devBanner">开发预览模式:chrome.storage 不可用,当前显示的是内存中的示例数据</div>
+  <div class="topbar" id="listTopbar">
+    <input id="search" placeholder="搜索正文、作者、备注…">
+    <span class="hint" id="countHint"></span>
+  </div>
+  <div id="list"></div>
+  <div id="settingsView" class="settings" style="display:none"></div>
+</main>
+
+<script src="defaults.js"></script>
+<script src="manage.js"></script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+{
+  "manifest_version": 3,
+  "name": "TweetMark",
+  "version": "1.0.0",
+  "description": "Twitter/X 收藏增强:关键词自动分类 + 收藏原因备注 + 本地管理页,免费替代付费 Bookmark 文件夹",
+  "permissions": ["storage", "unlimitedStorage", "tabs"],
+  "host_permissions": ["https://twitter.com/*", "https://x.com/*"],
+  "background": { "service_worker": "background.js" },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_title": "打开 TweetMark 管理页",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://twitter.com/*", "https://x.com/*"],
+      "js": ["page-hook.js"],
+      "run_at": "document_start",
+      "world": "MAIN"
+    },
+    {
+      "matches": ["https://twitter.com/*", "https://x.com/*"],
+      "js": ["defaults.js", "content.js"],
+      "css": ["content.css"],
+      "run_at": "document_idle"
+    }
+  ]
+}

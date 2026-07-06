@@ -1,0 +1,66 @@
+/* TweetMark 弹窗与提示,深色、贴合 Twitter 风格 */
+#tm-card {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 2147483647;
+  width: 320px;
+  background: #1c2732;
+  border: 1px solid #38444d;
+  border-radius: 14px;
+  padding: 14px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, .45);
+  font-family: -apple-system, "PingFang SC", "Segoe UI", sans-serif;
+  font-size: 14px;
+  color: #e7e9ea;
+  animation: tm-in .18s ease-out;
+}
+@keyframes tm-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+#tm-card .tm-row { margin-bottom: 10px; display: flex; gap: 8px; align-items: center; }
+#tm-card .tm-row:last-child { margin-bottom: 0; }
+#tm-card .tm-head { justify-content: space-between; }
+#tm-card .tm-title { font-weight: 600; }
+#tm-card .tm-count { font-size: 12px; color: #8b98a5; }
+#tm-card select, #tm-card input {
+  flex: 1;
+  min-width: 0;
+  background: #15202b;
+  border: 1px solid #38444d;
+  border-radius: 8px;
+  color: #e7e9ea;
+  padding: 7px 10px;
+  font-size: 14px;
+  outline: none;
+}
+#tm-card input:focus, #tm-card select:focus { border-color: #1d9bf0; }
+#tm-card .tm-actions { justify-content: flex-end; }
+#tm-card button {
+  border: none;
+  border-radius: 999px;
+  padding: 7px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+#tm-card .tm-save { background: #1d9bf0; color: #fff; }
+#tm-card .tm-save:hover { background: #1a8cd8; }
+#tm-card .tm-skip { background: transparent; color: #8b98a5; border: 1px solid #38444d; }
+#tm-card .tm-skip:hover { color: #e7e9ea; }
+
+#tm-toast {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 2147483647;
+  background: #1d9bf0;
+  color: #fff;
+  padding: 9px 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-family: -apple-system, "PingFang SC", "Segoe UI", sans-serif;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, .35);
+  animation: tm-in .18s ease-out;
+}
