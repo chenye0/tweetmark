@@ -162,6 +162,8 @@
     }
     el.addEventListener('pointerdown', stopTimer);
     el.addEventListener('input', stopTimer);
+    el.addEventListener('keydown', stopTimer);
+    el.addEventListener('compositionstart', stopTimer);
 
     async function createFolderIfNeeded() {
       if (sel.value !== '__new__') return sel.value;
@@ -199,6 +201,8 @@
 
     function onKey(e) {
       if (!card) return;
+      // 输入法(IME)组词期间的回车/Esc 是在选字/取消候选,不是对弹窗的指令
+      if (e.isComposing || e.keyCode === 229) return;
       if (e.key === 'Escape') { e.stopPropagation(); e.preventDefault(); commit(true); }
       else if (e.key === 'Enter' && (e.target === note || e.target === newInput)) {
         e.stopPropagation(); e.preventDefault(); commit(false);

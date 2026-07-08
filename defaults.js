@@ -11,7 +11,7 @@ const TM_DEFAULT_FOLDERS = [
   { id: 'f_other', name: '其他', order: 3, keywords: [], fallback: true }
 ];
 
-const TM_DEFAULT_SETTINGS = { autoSaveDelay: 5, popupEnabled: true };
+const TM_DEFAULT_SETTINGS = { autoSaveDelay: 10, popupEnabled: true };
 
 // 关键词匹配:
 // - "/.../" 包裹 → 按正则匹配(如 /\$[A-Za-z]{1,6}\b/ 匹配美股 ticker)
